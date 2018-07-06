@@ -1,0 +1,13 @@
+GCC49 Binary is downloaded from
+https://sourceforge.net/projects/edk2developertoolsforwindows/files/
+
+Set the required Windows environment variables by issuing these commands:
+set UEFI_BUILD_TOOLS=D:\Tool_GCC
+set NASM_PREFIX=%UEFI_BUILD_TOOLS%\nasm211\
+set GCC49_BIN=%UEFI_BUILD_TOOLS%\gcc492-x86\bin\
+set GCC49_DLL=%UEFI_BUILD_TOOLS%\gcc492-x86\dll\;%GCC49_BIN%
+set GCC49_ARM_PREFIX=%UEFI_BUILD_TOOLS%\gcc492-arm\bin\
+set GCC49_AARCH64_PREFIX=%UEFI_BUILD_TOOLS%\gcc492-aarch64\bin\ 
+
+ARM DSC:
+ArmVirtPkg\ArmVirtQemu.dsc

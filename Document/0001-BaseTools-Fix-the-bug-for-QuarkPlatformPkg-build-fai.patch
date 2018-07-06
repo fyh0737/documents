@@ -1,0 +1,37 @@
+From 329f9ddea35c570df3f3a205203b26d0de6219ea Mon Sep 17 00:00:00 2001
+From: Yonghong Zhu <yonghong.zhu@intel.com>
+Date: Fri, 29 Dec 2017 08:27:26 +0800
+Subject: [Patch] BaseTools: Fix the bug for QuarkPlatformPkg build failure
+
+The issue is that the string 'LPC' starts with the 'L' character and
+this is being confused with L" or L' for a Unicode string or Unicode
+character.
+
+Fixes:https://bugzilla.tianocore.org/show_bug.cgi?id=831
+Cc: Liming Gao <liming.gao@intel.com>
+Contributed-under: TianoCore Contribution Agreement 1.1
+Signed-off-by: Yonghong Zhu <yonghong.zhu@intel.com>
+---
+ BaseTools/Source/Python/Common/Expression.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/BaseTools/Source/Python/Common/Expression.py b/BaseTools/Source/Python/Common/Expression.py
+index 953a412..55fa06d 100644
+--- a/BaseTools/Source/Python/Common/Expression.py
++++ b/BaseTools/Source/Python/Common/Expression.py
+@@ -162,11 +162,11 @@ class ValueExpression(object):
+                 if Oprand1[0] in ['"', "'"] or Oprand1.startswith('L"') or Oprand1.startswith("L'")or Oprand1.startswith('UINT'):
+                     Oprand1, Size = ParseFieldValue(Oprand1)
+                 else:
+                     Oprand1,Size = ParseFieldValue('"' + Oprand1 + '"')
+             if type(Oprand2) == type(''):
+-                if Oprand2[0] in ['"', "'", 'L'] or Oprand2.startswith('UINT'):
++                if Oprand2[0] in ['"', "'"] or Oprand2.startswith('L"') or Oprand2.startswith("L'") or Oprand2.startswith('UINT'):
+                     Oprand2, Size = ParseFieldValue(Oprand2)
+                 else:
+                     Oprand2, Size = ParseFieldValue('"' + Oprand2 + '"')
+             if type(Oprand1) == type('') or type(Oprand2) == type(''):
+                 raise BadExpression(ERR_STRING_EXPR % Operator)
+-- 
+2.6.1.windows.1
+
